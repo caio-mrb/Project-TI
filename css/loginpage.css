@@ -3,6 +3,8 @@
 :root
 {
     --background-color: #212529;
+    --primary-color: #3d24c7;
+    --secondary-color: #8369fa;
 }
 
 *{
@@ -65,7 +67,7 @@ span{
     top:0px;
     left:0;
     transform:translateY(30px);
-    font-size:0.825em;
+    font-size:1em;
     transition-duration:300ms;
     pointer-events: none;
     cursor: text;
@@ -73,7 +75,7 @@ span{
 button{
     padding:15px 0px; 
     margin-top:30px;
-    background: #D02B49;
+    background: var(--primary-color);
     color:#fff;
     border:0;
     cursor:pointer;
@@ -82,11 +84,25 @@ button{
 
 label:focus-within > span,
 input:not(:placeholder-shown) + span{
-    color:#D02B49;
+    color:var(--primary-color);
     transform:translateY(0px);
 }
 
 
 .fail{
     display: none;
+    color: red;
+    text-decoration:dashed;
+    font-size: 0.9em;
+    margin-top: -10px;
+    padding: 0;
+}
+
+.faildiv
+{
+    display: none;
+    margin-bottom: -20px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
 }
