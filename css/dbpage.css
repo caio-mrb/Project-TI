@@ -17,7 +17,7 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
-img{
+.bg{
     position: fixed;
     width: 100vw;
     bottom: 0;
@@ -29,4 +29,10 @@ img{
     border: 1px solid transparent;
     backdrop-filter: blur(1rem);
     background-color: #ececec;
+}
+
+.image{
+    display: block;
+    margin: auto;
+    width: 100px;
 }
