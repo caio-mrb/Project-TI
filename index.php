@@ -127,11 +127,7 @@ function decryptFile($source, $dest, $key)
 </head>
 
 <body>
-
-  
-
     <img src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">
-
     <form name="loginForm" onsubmit="return validation()" method="post">
         <h1>Log In</h1>
         <label id="usernameLabel" for="username">
