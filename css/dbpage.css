@@ -7,17 +7,12 @@
     --secondary-color: #8369fa;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
 
 body{
-
     font-family: 'Poppins', sans-serif;
-    color:var(--background-color);
-    margin: 0 auto;
+    background-color:var(--background-color);
+    height: 100vh;
+    margin: 0;
 }
 
 .bg
@@ -26,6 +21,10 @@ body{
     width: 100vw;
     bottom: 0;
     z-index: -1;
+}
+
+.logo {
+    width: 60px;
 }
 
 .card{
@@ -44,7 +43,7 @@ body{
 .nav{
     position: relative;
     float: left;
-    height: 1000px;
+    height: 100vh;
     background: #3c4247;
     width: 70px;
     box-shadow: 10px 0 0 #6b5acc;

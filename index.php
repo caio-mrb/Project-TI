@@ -13,17 +13,6 @@ if ($request_method === 'POST') {
     header('Location: index.php', true, 303);
     exit;
 
-} elseif ($request_method === 'GET') {
-    if(isset($_SESSION['username']))
-    {
-        $username = $_SESSION['username'];
-        unset($_SESSION['username']);
-    }
-    if(isset($_SESSION['password']))
-    {
-        $password = $_SESSION['password'];
-        unset($_SESSION['password']);
-    }
 }
 
 
@@ -151,14 +140,14 @@ function decryptFile($source, $dest, $key)
 
             for($i=0;$i<count($users);$i+=2)
             {
-                if(strcmp($username,$users[$i]) == 0 &&  strcmp($password,$users[$i+1]) == 0)
+                if(strcmp($_SESSION['username'],$users[$i]) == 0 &&  strcmp($_SESSION['password'],$users[$i+1]) == 0)
                 {
-                    $_SESSION['username'] = $username;
+                    $_SESSION['logged'] = true;
                     header('location: dashboard.php'); 
                 }
             }
             
-            if(isset($username))
+            if(isset($_SESSION['username']))
             {
                 echo '<div class="faildiv"><div class="warningIcon"></div><em class="fail">Username or Password Incorrect!</em></div>';
             }

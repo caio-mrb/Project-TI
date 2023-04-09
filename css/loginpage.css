@@ -19,7 +19,7 @@ body{
     display:grid;
     place-content:center;
     font-family: 'Poppins', sans-serif;
-    color:var(--background-color);
+    background-color:var(--background-color);
 }
 
 img

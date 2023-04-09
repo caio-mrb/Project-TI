@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    if (!isset($_SESSION['username'])) {
+    if (!$_SESSION['logged']) {
     header("refresh:1;url=index.php");
     die("Acesso restrito.");
     }
@@ -33,7 +33,7 @@
                 </a> 
             </li>
             <li class="list">
-                <a href="#">    
+                <a href="logout.php">    
                     <span class="icon"><ion-icon name="exit-outline"></ion-icon></span>
                     <span class="title">Sair</span>
                 </a> 
@@ -43,7 +43,8 @@
     <!--<img class ="bg" src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">-->
     <div class="container">
         <div class="card m-3">
-            <div class="card-title">
+            <div class="card-title d-flex justify-content-center">
+                <img class="logo" src="src/favicon.svg" alt="asd">
                 <h1 class="text-center"><strong>Armazém</strong></h1>
             </div>
             <div class="card-body">
