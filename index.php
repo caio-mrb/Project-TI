@@ -10,8 +10,7 @@
 </head>
 
 <body>
-    <img src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">
-
+    <img class="bg" src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">
     <form name="loginForm" action="/Project-TI/dashboard.php" onsubmit="return validation()" method="post">
         <h1>Log In</h1>
         <label id="usernameLabel" for="username">
