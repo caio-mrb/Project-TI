@@ -23,7 +23,7 @@ body{
 .bg
 {
     position: fixed;
-    width: 200vw;
+    width: 100vw;
     bottom: 0;
     z-index: -1;
 }

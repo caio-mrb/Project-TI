@@ -1,9 +1,14 @@
 <?php
     session_start();
 
-    $valor_temperatura = file_get_contents("src/valor.txt");
-    $hora_temperatura = file_get_contents("src/hora.txt");
-    $nome_temperatura = file_get_contents("src/nome.txt");
+    if (!isset($_SESSION['username'])) {
+    header("refresh:1;url=index.php");
+    die("Acesso restrito.");
+    }
+
+    $value_temperature = file_get_contents("api/files/temperature/value.txt");
+    $time_temperature = file_get_contents("api/files/temperature/time.txt");
+    $name_temperature = file_get_contents("api/files/temperature/name.txt");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +23,7 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <img class="bg" src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">
+    <img class="bg" src="src/layered-waves-haikei.svg" alt="Blue and Purple Waves">
     <div class="nav">    
         <ul>
             <li class="list">

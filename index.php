@@ -127,7 +127,7 @@ function decryptFile($source, $dest, $key)
 </head>
 
 <body>
-    <img src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">
+    <img src="src/layered-waves-haikei.svg" alt="Blue and Purple Waves">
     <form name="loginForm" onsubmit="return validation()" method="post">
         <h1>Log In</h1>
         <label id="usernameLabel" for="username">
@@ -153,7 +153,7 @@ function decryptFile($source, $dest, $key)
             {
                 if(strcmp($username,$users[$i]) == 0 &&  strcmp($password,$users[$i+1]) == 0)
                 {
-                    $_SESSION['username'] = $_POST['username'];
+                    $_SESSION['username'] = $username;
                     header('location: dashboard.php'); 
                 }
             }
