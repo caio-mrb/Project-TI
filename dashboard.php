@@ -60,7 +60,7 @@
                     <h1>Warehouse</h1>
                 </a>
             </li>
-            <li class="list">
+            <li class="list actualpage">
                 <a href="dashboard.php">    
                     <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
                     <span class="title">Home</span>

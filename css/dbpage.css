@@ -58,13 +58,18 @@ body{
     width: 100vw;
     height: 70px;
     background: #3c4247;
+    border-bottom: 3px solid #6b5acc;
+}
+
+.actualpage {
+    background-color: #6b5acc;
 }
 
 .mobilenav a{
     display: flex;
-    
+    align-items: center;
     text-decoration: none;
-    margin-left: 20px;
+    margin: 20px;
     color: white;
 }
 
@@ -73,11 +78,17 @@ body{
     flex-direction: row;
     align-items: center;
     list-style: none;
+    margin: 0;
+    
 }
 
 .mobilenav h1{
+
+    
+
     text-transform: uppercase;
     height: fit-content;
+    margin: 0  0 0 20px;
     font-size: 1.5em;
 }
 
@@ -85,13 +96,14 @@ body{
     display: block;
     position: relative;
     display: flex;
-    width: 50px;
+    width: 40px;
     z-index: 20;
 }
 
 .nav h1 {
     font-size: 1.2em;
     text-transform: uppercase;
+    
 }
 
 .nav:hover{
@@ -106,7 +118,7 @@ body{
     padding-left: 5px;
 }
 
-.nav ul li{
+.nav li{
     position: relative;
     list-style: none;
     width: 100%;
@@ -115,7 +127,7 @@ body{
 
 }
 
-.nav ul li a{
+.nav a{
     position: relative;
     display: flex;
     width: 100%;
@@ -123,7 +135,7 @@ body{
     color: white;
 }
 
-.nav ul li a .icon{
+.nav .icon{
     position: relative;
     display: block;
     min-width: 60px;
@@ -132,13 +144,13 @@ body{
     line-height: 70px;
 }
 
-.nav ul li a .icon ion-icon{
+.nav ion-icon{
     position: relative;
     font-size: 1.5rem;
     z-index: 1;
 }
 
-.nav ul li a .title{
+.nav .title{
     position: relative;
     display: block;
     padding-left: 10px;
@@ -147,11 +159,11 @@ body{
     white-space: nowrap;
 }
 
-.nav ul li.active{
+.nav .active{
     background: #6b5acc;
 }
 
-.nav ul li.active a::before{
+.nav .active a::before{
     content: '';
     position: absolute;
     top: -30px;
@@ -163,7 +175,7 @@ body{
     box-shadow: 15px 15px 0 #6b5acc;
 }
 
-.nav ul li.active a::after{
+.nav .active a::after{
     content: '';
     position: absolute;
     bottom: -30px;
