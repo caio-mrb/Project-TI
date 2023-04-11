@@ -1,28 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
-:root
-{
-    --background-color: #212529;
-    --primary-color: #3d24c7;
-    --secondary-color: #8369fa;
-}
-
-<<<<<<< HEAD
 *{
-    box-sizing:border-box;
+    box-sizing: border-box;
 }
 
 body{
-    font-family: 'Poppins', sans-serif;
-    color: var(--background-color);
-=======
-
-body{
-    font-family: 'Poppins', sans-serif;
-    background-color:var(--background-color);
-    height: 100vh;
->>>>>>> 785a604b21156ab571c34d8f33286df7724f23a2
+    background-color: #212529;
     margin: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 .bg
@@ -34,7 +17,7 @@ body{
 }
 
 .logo {
-    width: 60px;
+    width: 140px;
 }
 
 .card{
@@ -51,7 +34,9 @@ body{
 }
 
 .nav{
-    position: relative;
+    position: fixed;
+    top: 0;
+    display: flex;
     float: left;
     height: 100vh;
     background: #3c4247;
@@ -61,13 +46,12 @@ body{
     overflow-x: hidden;
     transition: 0.5s;
 }
-
 .nav:hover{
     width: 300px;
 }
 .nav ul{
     position: absolute;
-    top:0;
+    top: 20px;
     left:0;
     width: 100%;
     padding-top: 40px;
@@ -130,6 +114,7 @@ body{
     border-radius: 50%;
     box-shadow: 15px 15px 0 #6b5acc;
 }
+
 .nav ul li.active a::after{
     content: '';
     position: absolute;
@@ -141,3 +126,16 @@ body{
     border-radius: 50%;
     box-shadow: 15px -15px 0 #6b5acc;
 }
+
+.dash-card{
+    background-color: #3c4247;
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 3s ease-in-out;
+  }
+  
+  .fade-in.loaded {
+    opacity: 1;
+  }

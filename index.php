@@ -116,7 +116,11 @@ function decryptFile($source, $dest, $key)
 </head>
 
 <body>
-    <img src="src/layered-waves-haikei.svg" alt="Blue and Purple Waves">
+    <img class ="bg-img" src="src/layered-waves-haikei.svg" alt="Blue and Purple Waves">
+    <div class="container">
+        <div class="divLogoImage">
+        <img class="logo fade-in" src="src/favicon.svg" alt="asd">
+        </div>
     <form name="loginForm" onsubmit="return validation()" method="post">
         <h1>Log In</h1>
         <label id="usernameLabel" for="username">
@@ -137,7 +141,7 @@ function decryptFile($source, $dest, $key)
                 <em name="emptyPass" class="fail">Password cant be empty!</em>
             </div>
         <?php
-
+            /*
             for($i=0;$i<count($users);$i+=2)
             {
                 if(strcmp($_SESSION['username'],$users[$i]) == 0 &&  strcmp($_SESSION['password'],$users[$i+1]) == 0)
@@ -151,13 +155,16 @@ function decryptFile($source, $dest, $key)
             {
                 echo '<div class="faildiv"><div class="warningIcon"></div><em class="fail">Username or Password Incorrect!</em></div>';
             }
-        
+            */
         ?>
         <button type="submit">LOGIN</button>
     </form>
 
     <script src="js/formvalidation.js"></script>
-
+    <script>      
+        var fadeInImage = document.querySelector(".fade-in");
+        fadeInImage.classList.add("loaded");
+    </script>
 </body>
 
 </html>

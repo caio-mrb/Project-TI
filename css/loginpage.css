@@ -22,12 +22,31 @@ body{
     background-color:var(--background-color);
 }
 
-img
+.bg-img
 {
     position: fixed;
     width: 100vw;
     bottom: 0;
     z-index: -1;
+}
+
+.logo {
+    width: 200px !important;
+}
+
+.divLogoImage
+{
+    width:350px;
+    height: 350px;
+    max-width:768px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+      
+    margin-top: -150px;
+      
 }
 
 h1 {
@@ -129,3 +148,12 @@ input:not(:placeholder-shown) + span{
     display: flex;
     justify-content: center;
 }
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 3s ease-in-out;
+  }
+  
+  .fade-in.loaded {
+    opacity: 1;
+  }
