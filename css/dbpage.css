@@ -36,7 +36,8 @@ body{
 .nav{
     position: fixed;
     top: 0;
-    display: flex;
+    z-index: 1;
+    display: none;
     float: left;
     height: 100vh;
     background: #3c4247;
@@ -46,6 +47,53 @@ body{
     overflow-x: hidden;
     transition: 0.5s;
 }
+
+.mobilenav{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    top: 0;
+    z-index: 1;
+    float: top;
+    width: 100vw;
+    height: 70px;
+    background: #3c4247;
+}
+
+.mobilenav a{
+    display: flex;
+    
+    text-decoration: none;
+    margin-left: 20px;
+    color: white;
+}
+
+.mobilenav ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+}
+
+.mobilenav h1{
+    text-transform: uppercase;
+    height: fit-content;
+    font-size: 1.5em;
+}
+
+.navlogo {
+    display: block;
+    position: relative;
+    display: flex;
+    width: 50px;
+    z-index: 20;
+}
+
+.nav h1 {
+    font-size: 1.2em;
+    text-transform: uppercase;
+}
+
 .nav:hover{
     width: 300px;
 }

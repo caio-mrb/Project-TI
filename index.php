@@ -141,7 +141,6 @@ function decryptFile($source, $dest, $key)
                 <em name="emptyPass" class="fail">Password cant be empty!</em>
             </div>
         <?php
-            /*
             for($i=0;$i<count($users);$i+=2)
             {
                 if(strcmp($_SESSION['username'],$users[$i]) == 0 &&  strcmp($_SESSION['password'],$users[$i+1]) == 0)
@@ -155,7 +154,7 @@ function decryptFile($source, $dest, $key)
             {
                 echo '<div class="faildiv"><div class="warningIcon"></div><em class="fail">Username or Password Incorrect!</em></div>';
             }
-            */
+            
         ?>
         <button type="submit">LOGIN</button>
     </form>

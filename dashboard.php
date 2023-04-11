@@ -1,11 +1,11 @@
 <?php
-/*   session_start();
+  session_start();
 
     if (!$_SESSION['logged']) {
     header("refresh:1;url=index.php");
     die("Acesso restrito.");
     }
-*/
+
     $value_temperature = file_get_contents("api/files/temperature/value.txt");
     $time_temperature = file_get_contents("api/files/temperature/time.txt");
     $name_temperature = file_get_contents("api/files/temperature/name.txt");
@@ -25,8 +25,41 @@
 </head>
 <body>
     <img class="bg" src="src/layered-waves-haikei.svg" alt="Blue and Purple Waves">
-    <div class="nav">
+    <div class="nav d-lg-flex">
         <ul>
+            <li>
+                <a href="dashboard.php">
+                    <div class="navlogo">
+                        <img src="src/favicon.svg" alt="Company Logo">
+                    </div>                    
+                    <h1>Warehouse</h1>
+                </a>
+            </li>
+            <li class="list">
+                <a href="dashboard.php">    
+                    <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                    <span class="title">Home</span>
+                </a> 
+            </li>
+            <li class="list">
+                <a href="logout.php">   
+                    <span class="icon"><ion-icon name="exit-outline"></ion-icon></span>
+                    <span class="title">Exit</span>
+                </a> 
+            </li>
+        </ul>
+    </div>
+
+    <div class="mobilenav d-lg-none">
+        <ul>
+        <li>
+                <a href="dashboard.php">
+                    <div class="navlogo">
+                        <img src="src/favicon.svg" alt="Company Logo">
+                    </div>                    
+                    <h1>Warehouse</h1>
+                </a>
+            </li>
             <li class="list">
                 <a href="dashboard.php">    
                     <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
