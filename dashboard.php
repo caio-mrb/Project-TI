@@ -1,7 +1,14 @@
 <?php
-    $valor_temperatura = file_get_contents("src/valor.txt");
-    $hora_temperatura = file_get_contents("src/hora.txt");
-    $nome_temperatura = file_get_contents("src/nome.txt");
+    session_start();
+
+    if (!$_SESSION['logged']) {
+    header("refresh:1;url=index.php");
+    die("Acesso restrito.");
+    }
+
+    $value_temperature = file_get_contents("api/files/temperature/value.txt");
+    $time_temperature = file_get_contents("api/files/temperature/time.txt");
+    $name_temperature = file_get_contents("api/files/temperature/name.txt");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,12 +17,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <title>Dashboard</title>
+=======
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">    
+>>>>>>> 785a604b21156ab571c34d8f33286df7724f23a2
     <link href="css/dbpage.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="src/favicon.svg">
+    <title>Dashboard</title>
 </head>
 <body>
-    <img class="bg" src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">
+    <img class="bg" src="src/layered-waves-haikei.svg" alt="Blue and Purple Waves">
     <div class="nav">    
         <ul>
             <li class="list">
@@ -25,7 +38,7 @@
                 </a> 
             </li>
             <li class="list">
-                <a href="#">    
+                <a href="logout.php">    
                     <span class="icon"><ion-icon name="exit-outline"></ion-icon></span>
                     <span class="title">Sair</span>
                 </a> 
@@ -35,7 +48,8 @@
     <!--<img class ="bg" src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">-->
     <div class="container">
         <div class="card m-3">
-            <div class="card-title">
+            <div class="card-title d-flex justify-content-center">
+                <img class="logo" src="src/favicon.svg" alt="asd">
                 <h1 class="text-center"><strong>Armazém</strong></h1>
             </div>
             <div class="card-body">
