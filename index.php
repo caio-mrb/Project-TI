@@ -141,11 +141,12 @@ function decryptFile($source, $dest, $key)
                 <em name="emptyPass" class="fail">Password cant be empty!</em>
             </div>
         <?php
-            for($i=0;$i<count($users);$i+=2)
+            for($i=0;$i<count($users);$i+=3)
             {
                 if(strcmp($_SESSION['username'],$users[$i]) == 0 &&  strcmp($_SESSION['password'],$users[$i+1]) == 0)
                 {
                     $_SESSION['logged'] = true;
+                    $_SESSION['usertype'] = $users[$i+3];
                     header('location: dashboard.php'); 
                 }
             }

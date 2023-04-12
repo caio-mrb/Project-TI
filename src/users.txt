@@ -1,6 +1,12 @@
+admin
+123
+1
 user1
 123
+0
 user2
 lero
+0
 user3
 321
+0

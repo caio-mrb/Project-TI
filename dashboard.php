@@ -47,6 +47,13 @@
                     <span class="title">Exit</span>
                 </a> 
             </li>
+            
+            <li class="list">
+                <a href="#">   
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <span class="title"><?php echo $_SESSION['username']?></span>
+                </a> 
+            </li>
         </ul>
     </div>
 
@@ -70,6 +77,12 @@
                 <a href="logout.php">   
                     <span class="icon"><ion-icon name="exit-outline"></ion-icon></span>
                     <span class="title">Exit</span>
+                </a> 
+            </li>
+            <li class="list">
+                <a href="#">   
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <span class="title"><?php echo $_SESSION['username']?></span>
                 </a> 
             </li>
         </ul>
