@@ -4,6 +4,7 @@
     --background-secondary-color: #373d42;
     --primary-color: #3d24c7;
     --secondary-color: #8369fa;
+    --tertiary-color: #a0a0a0;
     --menu-text-color: #f0f0f0;
 }
 
@@ -51,7 +52,7 @@ body{
     height: 100vh;
     background: #3c4247;
     width: 70px;
-    box-shadow: 10px 0 0 #6b5acc;
+    box-shadow: 10px 0 0 var(--tertiary-color);
     border-left: 5px solid #3c4247 ;
     overflow-x: hidden;
     transition: 0.5s;
@@ -67,11 +68,11 @@ body{
     width: 100vw;
     height: 70px;
     background: #3c4247;
-    border-bottom: 3px solid #6b5acc;
+    border-bottom: 3px solid var(--tertiary-color);
 }
 
 .actualpage {
-    background-color: #6b5acc;
+    background-color: var(--tertiary-color);
 }
 
 /*.mobilenav a{
@@ -169,7 +170,7 @@ body{
 }
 
 .nav .active{
-    background: #6b5acc;
+    background: var(--tertiary-color);
 }
 
 .nav .active a::before{
@@ -181,7 +182,7 @@ body{
     height: 30px;
     background: #3c4247;
     border-radius: 50%;
-    box-shadow: 15px 15px 0 #6b5acc;
+    box-shadow: 15px 15px 0 var(--tertiary-color);
 }
 
 .nav .active a::after{
@@ -193,7 +194,7 @@ body{
     height: 30px;
     background: #3c4247;
     border-radius: 50%;
-    box-shadow: 15px -15px 0 #6b5acc;
+    box-shadow: 15px -15px 0 var(--tertiary-color);
 }*/
 
 
@@ -212,7 +213,7 @@ body{
     overflow-x: hidden;
     
     background: var(--background-secondary-color);
-    box-shadow: 10px 0 0 #6b5acc;
+    box-shadow: 10px 0 0 var(--tertiary-color);
 
     transition: 0.3s;
 }
