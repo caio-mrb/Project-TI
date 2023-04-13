@@ -1,3 +1,12 @@
+:root
+{
+    --background-color: #212529;
+    --background-secondary-color: #373d42;
+    --primary-color: #3d24c7;
+    --secondary-color: #8369fa;
+    --menu-text-color: #f0f0f0;
+}
+
 *{
     box-sizing: border-box;
 }
@@ -65,7 +74,7 @@ body{
     background-color: #6b5acc;
 }
 
-.mobilenav a{
+/*.mobilenav a{
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -98,9 +107,9 @@ body{
     display: flex;
     width: 40px;
     z-index: 20;
-}
+}*/
 
-.nav h1 {
+/*.nav h1 {
     font-size: 1.2em;
     text-transform: uppercase;
     
@@ -185,15 +194,109 @@ body{
     background: #3c4247;
     border-radius: 50%;
     box-shadow: 15px -15px 0 #6b5acc;
+}*/
+
+
+/*Navbar css for desktop size*/
+
+.desktopnav{ 
+    display: none;
+    position: fixed;  
+    float: left;
+    
+    top: 0;
+    width: 70px;
+    height: 100vh;
+    z-index: 1;
+
+    overflow-x: hidden;
+    
+    background: var(--background-secondary-color);
+    box-shadow: 10px 0 0 #6b5acc;
+
+    transition: 0.3s;
 }
 
+
+.desktopnav ul {
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px 0px 0px 10px;
+}
+
+.desktopnav li {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+}
+
+.desktopnav .li-logo {
+    margin-bottom: 5px;
+}
+
+.desktopnav .navlogo {
+    width: 50px;
+}
+
+.desktopnav .icon {
+    width: 30px;
+    height: 30px;
+    margin: 20px 15px;
+}
+
+.desktopnav h1, span{
+    color: var(--menu-text-color);
+}
+
+.desktopnav a, h1 {
+    display: flex;
+    align-items: center;
+
+    margin: 0;
+    text-decoration: none;
+}
+
+.desktopnav h1 {
+    font-size: 2em;
+    margin-left: 20PX;
+}
+
+.desktopnav span {
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    
+    margin: 0;
+}
+
+.desktopnav .li-user {
+    justify-self: end;
+}
+
+
+/* Hover actions */
+
+.desktopnav:hover{
+    width: 300px;
+}
+
+.desktopnav .list:hover{
+    background-color: var(--secondary-color);
+    border-radius: 100px;
+}
+
+/*-------------*/
+
+
 .dash-card{
-    background-color: #3c4247;
+    background-color: var(--background-secondary-color);
 }
 
 .fade-in {
     opacity: 0;
-    transition: opacity 3s ease-in-out;
+    transition: opacity 2s ease-in-out;
   }
   
   .fade-in.loaded {

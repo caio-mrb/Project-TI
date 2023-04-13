@@ -25,32 +25,30 @@
 </head>
 <body>
     <img class="bg" src="src/layered-waves-haikei.svg" alt="Blue and Purple Waves">
-    <div class="nav d-lg-flex">
+    <div class="desktopnav d-lg-flex">
         <ul>
-            <li>
+            <li class="li-logo">
                 <a href="dashboard.php">
-                    <div class="navlogo">
-                        <img src="src/favicon.svg" alt="Company Logo">
-                    </div>                    
+                    <img class="navlogo" src="src/favicon.svg" alt="Company Logo">
                     <h1>Warehouse</h1>
                 </a>
             </li>
             <li class="list">
                 <a href="dashboard.php">    
-                    <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                    <span><ion-icon class="icon" name="home-outline"></ion-icon></span>
                     <span class="title">Home</span>
                 </a> 
             </li>
             <li class="list">
                 <a href="logout.php">   
-                    <span class="icon"><ion-icon name="exit-outline"></ion-icon></span>
+                    <span><ion-icon class="icon" name="exit-outline"></ion-icon></span>
                     <span class="title">Exit</span>
                 </a> 
             </li>
             
-            <li class="list">
+            <li class="li-user">
                 <a href="#">   
-                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <span><ion-icon class="icon" name="person-outline"></ion-icon></span>
                     <span class="title"><?php echo $_SESSION['username']?></span>
                 </a> 
             </li>
