@@ -72,9 +72,19 @@ body{
 }
 
 .actualpage {
-    background-color: var(--tertiary-color);
+    text-decoration:underline;  
+    text-decoration-color: var(--secondary-color);
+    text-decoration-thickness:3px;
+    
 }
 
+.actualpage .icon {
+    border-bottom: solid 3px var(--secondary-color);
+}
+
+.icon{
+    
+}
 /*.mobilenav a{
     display: flex;
     align-items: center;
@@ -198,6 +208,10 @@ body{
 }*/
 
 
+.logoutbtn {
+    color: red;
+}
+
 /*Navbar css for desktop size*/
 
 .desktopnav{ 
@@ -213,23 +227,27 @@ body{
     overflow-x: hidden;
     
     background: var(--background-secondary-color);
-    box-shadow: 10px 0 0 var(--tertiary-color);
+    box-shadow: 10px 0 0 var(--secondary-color);
 
     transition: 0.3s;
 }
 
 
-.desktopnav ul {
+
+
+.desktopnav .ul-nav {
     display: flex;
+    
+    justify-content: space-between;
     flex-direction: column;
 
     padding: 20px 0px 0px 10px;
 }
 
-.desktopnav li {
+.desktopnav .list, .li-logo, .li-user {
     display: flex;
     flex-direction: row;
-
+    border-radius: 100px;
     align-items: center;
 }
 
@@ -239,6 +257,11 @@ body{
 
 .desktopnav .navlogo {
     width: 50px;
+}
+
+
+.dropupstyle{
+    background-color: var(--background-secondary-color);
 }
 
 .desktopnav .icon {
@@ -251,10 +274,10 @@ body{
     color: var(--menu-text-color);
 }
 
-.desktopnav a, h1 {
+.desktopnav .a-nav,h1 {
     display: flex;
     align-items: center;
-
+    width: max-content;
     margin: 0;
     text-decoration: none;
 }
@@ -283,12 +306,12 @@ body{
     width: 300px;
 }
 
-.desktopnav .list:hover{
+.desktopnav a:hover .title{
     background-color: var(--secondary-color);
-    border-radius: 100px;
+    
 }
 
-/*-------------*/
+/*-------------  */
 
 
 .dash-card{
@@ -300,6 +323,11 @@ body{
     transition: opacity 2s ease-in-out;
   }
   
+.dropdown
+{
+    z-index: 20;
+}
+
   .fade-in.loaded {
     opacity: 1;
   }
