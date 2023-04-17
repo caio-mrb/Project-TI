@@ -31,7 +31,7 @@ $name_temperature = file_get_contents("api/files/temperature/name.txt");
         <ul class="ul-nav">
             <div>
                 <li class="li-logo">
-                    <a class="a-nav"href="dashboard.php">
+                    <a class="a-nav" href="dashboard.php">
                         <img class="navlogo" src="src/favicon.svg" alt="Company Logo">
                         <h1>Warehouse</h1>
                     </a>
@@ -61,8 +61,8 @@ $name_temperature = file_get_contents("api/files/temperature/name.txt");
                         <div class="dropdown-menu" data-bs-theme="dark" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="profile.php">Profile</a>
                             <?php
-                                if($_SESSION['usertype'] == 1)
-                                    echo '<a class="dropdown-item" href="editusers.php">Edit Users</a>';
+                            if ($_SESSION['usertype'] == 1)
+                                echo '<a class="dropdown-item" href="editusers.php">Edit Users</a>';
                             ?>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item logoutbtn" href="logout.php">Log Out</a>
@@ -104,6 +104,19 @@ $name_temperature = file_get_contents("api/files/temperature/name.txt");
         </ul>
     </div>
     <!--<img class ="bg" src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">-->
+    <?php
+    $sensors = array();
+
+    foreach (new DirectoryIterator('./api/files') as $fileInfo) {
+        if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
+        $sensors[count($sensors)] = $fileInfo->getBasename();
+        echo '<h1 style="color:blue;z-index:20"">' . $sensors[count($sensors) - 1] . '</h1>';
+    }
+
+    
+
+    ?>
+
     <div class="container">
         <div class="card m-3" style="background-color: #212529; color: white">
             <div class="card-title d-flex justify-content-center">
