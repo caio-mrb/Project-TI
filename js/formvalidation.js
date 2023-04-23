@@ -1,7 +1,19 @@
+/*
+Verify if user has written all required inputs
+
+Otherwise, show the respective warning (username or password)
+
+And verify if the username and password are valid
+
+If not, show a warning of "Username or Password Incorrect"
+*/
+
 function validation() {
    var username = document.loginForm.username;
    var password = document.loginForm.password;
 
+
+    //If user start to write, hides the respective warning (username or password)
     username.addEventListener('input',hideWarning);
     
     password.addEventListener('input',hideWarning);

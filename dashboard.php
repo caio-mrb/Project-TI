@@ -6,9 +6,6 @@ if (!$_SESSION['logged']) {
     die("Acesso restrito.");
 }
 
-$value_temperature = file_get_contents("api/files/temperature/value.txt");
-$time_temperature = file_get_contents("api/files/temperature/time.txt");
-$name_temperature = file_get_contents("api/files/temperature/name.txt");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +18,7 @@ $name_temperature = file_get_contents("api/files/temperature/name.txt");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <title>Dashboard</title>
     <link href="css/dbpage.css" rel="stylesheet">
+    <link href="css/navbar.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="src/favicon.svg">
     <title>Dashboard</title>
 </head>
@@ -60,10 +58,6 @@ $name_temperature = file_get_contents("api/files/temperature/name.txt");
                         </button>
                         <div class="dropdown-menu" data-bs-theme="dark" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="profile.php">Profile</a>
-                            <?php
-                            if ($_SESSION['usertype'] == 1)
-                                echo '<a class="dropdown-item" href="editusers.php">Edit Users</a>';
-                            ?>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item logoutbtn" href="logout.php">Log Out</a>
                         </div>
