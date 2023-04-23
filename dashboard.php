@@ -104,18 +104,6 @@ $name_temperature = file_get_contents("api/files/temperature/name.txt");
         </ul>
     </div>
     <!--<img class ="bg" src="src/layered-waves-haikei.svg" alt="Pink and Orange Waves">-->
-    <?php
-    $sensors = array();
-
-    foreach (new DirectoryIterator('./api/files') as $fileInfo) {
-        if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
-        $sensors[count($sensors)] = $fileInfo->getBasename();
-        echo '<h1 style="color:blue;z-index:20"">' . $sensors[count($sensors) - 1] . '</h1>';
-    }
-
-    
-
-    ?>
 
     <div class="container">
         <div class="card m-3" style="background-color: #212529; color: white">
@@ -127,48 +115,71 @@ $name_temperature = file_get_contents("api/files/temperature/name.txt");
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
-                <div class="card m-3 cb1">
-                    <div class="card-header text-center">
-                        <strong><?php echo "Alarme de Segurança: " . " On" ?></strong>
-                    </div>
-                    <div class="card-body">
-                        <img src="src/Alarm-on.png" class="image">
-                    </div>
-                    <div class="card-footer text-center">
-                        <?php echo date("d/m/y") . "   " . date("H:i:s") . " - "; ?>
-                        <a href="#">Historico</a>
-                    </div>
-                </div>
+    <?php
+
+    function sensorImage($directory)
+    {
+        $range = file('api/files/'.$directory.'/range.txt',FILE_IGNORE_NEW_LINES);
+        $value = file_get_contents("api/files/" . $directory . "/value.txt");
+        
+        if($range[1]-$range[0] == 1)
+        {
+            return '<img src="api/files/'. $directory . '/images/'. $value + 1 .'.png" class="image">';
+        }
+
+        
+        $images = new FilesystemIterator('api/files/'.$directory.'/images', FilesystemIterator::SKIP_DOTS);
+        $imgs_num = iterator_count($images);
+
+        for($i=1;$i<=$imgs_num;$i++){
+            if((($range[1]-$range[0])/$imgs_num)*$i + $range[0] >= $value)
+            return '<img src="api/files/'. $directory . '/images/'. $i .'.png" class="image">';
+        }
+    }
+
+    function sensorValue($directory)
+    {
+        $range = file('api/files/'.$directory.'/range.txt',FILE_IGNORE_NEW_LINES);
+        $value = file_get_contents("api/files/" . $directory . "/value.txt");
+        $measurement = file_get_contents("api/files/" . $directory . "/measurement.txt");
+
+        if($range[1]-$range[0] != 1)
+        {
+            return $value . ' ' . $measurement;
+        }
+
+        if($value == 1)
+            return'On';
+
+        return 'Off';
+
+    }
+
+    $sensors = array();
+
+    foreach (new DirectoryIterator('./api/files') as $fileInfo) {
+        if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
+        //$sensors[count($sensors)] = $fileInfo->getBasename();
+        //echo '<h1 style="color:blue;z-index:20"">' . $sensors[count($sensors) - 1] . '</h1>';
+        $directory = $fileInfo->getBasename();
+        $name = file_get_contents("api/files/" . $directory . "/name.txt");
+        $time = file_get_contents("api/files/" . $directory . "/time.txt");
+        echo '<div class="col-md-4">
+                <div class="card m-3">
+            <div class="card-header text-center">
+                <strong>'. $name. ': ' . sensorValue($directory) . '</strong>
             </div>
-            <div class="col-sm-4">
-                <div class="card m-3 cb1">
-                    <div class="card-header text-center">
-                        <strong><?php echo 'Temperatura' . ": " . $value_temperature . "ºC" ?></strong>
-                    </div>
-                    <div class="card-body">
-                        <img class="image" src="src/humidity-high.png">
-                    </div>
-                    <div class="card-footer text-center">
-                        <?php echo date("d/m/y") . "   " . date("H:i:s") . " - "; ?>
-                        <a href="#">Historico</a>
-                    </div>
-                </div>
+            <div class="card-body">
+            '.sensorImage($directory).'
             </div>
-            <div class="col-sm-4">
-                <div class="card m-3 cb1">
-                    <div class="card-header text-center">
-                        <strong><?php echo "Led Arduino: " . "On" ?></strong>
-                    </div>
-                    <div class="card-body">
-                        <img class="image" src="src/light-on.png">
-                    </div>
-                    <div class="card-footer text-center">
-                        <?php echo date("d/m/y") . "   " . date("H:i:s") . " - "; ?>
-                        <a href="#">Historico</a>
-                    </div>
-                </div>
+            <div class="card-footer text-center">
+                '. $time .'
+                <a href="historic.php">Historico</a>
             </div>
+        </div>
+    </div>';
+    }
+    ?>
         </div>
     </div>
 
