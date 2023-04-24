@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
     $_POST['name'] = strtolower($_POST['name']);
+    $_POST['type'] = strtolower($_POST['type']);
 
     foreach (new DirectoryIterator('./files/') as $apifiles) {
         if(strcmp(substr($apifiles, 1),$_POST['type']) == 0)
@@ -60,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die("Unsupported value");
     }
 
-    if(!is_numeric($_POST['value']) == $value)
+    if(!is_numeric($_POST['value']) && strcmp($_POST['value'],$value) == 0)
     {
         http_response_code(208);
         die("Already set");
@@ -80,17 +81,36 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die( "Value exceeds the range");
     }
 
-    if(!is_numeric($_POST['value']) &&
-        strcmp($_POST['value'],"on") !=0 &&
-        strcmp($_POST['value'],"off") !=0 &&
-        strcmp($_POST['value'],"open") !=0 &&
-        strcmp($_POST['value'],"close") !=0 &&
-        strcmp($_POST['value'],"yes") !=0 &&
-        strcmp($_POST['value'],"no") !=0)
+    if (!is_numeric($_POST['value']))
     {
+    $_POST['value'] = ucfirst(strtolower($_POST['value']));
+
+    switch($_POST['value']){
+        case 'On':
+        case 'Off':
+            if(strcmp($value,"On")!=0 && strcmp($value,"Off")!=0)
+                goto error;
+            break;
+
+        case 'Open':
+        case 'Closed':
+            if(strcmp($value,"Open")!=0 && strcmp($value,"Closed")!=0)
+                goto error;
+            break;
+
+        case 'Yes':
+        case 'No':
+            if(strcmp($value,"Yes")!=0 && strcmp($value,"No")!=0)
+                goto error;
+            break;
+        
+        default:
+        error:
         http_response_code(422);
         die ("Unsupported value");
-    }    
+    }
+
+    }  
 
     file_put_contents("files/" . $typedirectory . "/" . $_POST['name'] . "/value.txt", $_POST['value']);
     file_put_contents("files/" . $typedirectory . "/" . $_POST['name'] . "/time.txt", $_POST['time']);

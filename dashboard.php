@@ -19,8 +19,8 @@ function getImage($directory)
     $value = file_get_contents($directory . '/value.txt', FILE_IGNORE_NEW_LINES);
 
     if (strcmp($value, 'On') == 0 || strcmp($value, 'Open') == 0 || strcmp($value, 'Yes') == 0)
-
         return $directory . '/images/2';
+        
     if (strcmp($value, 'Off') == 0 || strcmp($value, 'Closed') == 0 || strcmp($value, 'No') == 0)
         return $directory . '/images/1';
 
@@ -37,7 +37,7 @@ function getImage($directory)
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 
 <head>
     <!--<meta http-equiv="refresh" content="5">-->
@@ -147,7 +147,7 @@ function getImage($directory)
                             </div>
                             <div class="card-footer text-center">
                                 ' . $time . '
-                            <a href="history.php">History</a>
+                            <a href="history.php?type='.substr($apifiles, 1) .'&name='. $fileInfo . '">History</a>
                             </div>
                         </div>
                     </div>';
