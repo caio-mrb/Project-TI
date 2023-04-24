@@ -44,6 +44,7 @@ function getImage($directory)
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/navbar.css" rel="stylesheet">
@@ -123,16 +124,16 @@ function getImage($directory)
 
     <div class="container">
         <h1 class="title">Dynamic Dashboard</h1>
-        
-            <?php
-            foreach (new DirectoryIterator('./api/files/') as $apifiles) {
+
+        <?php
+        foreach (new DirectoryIterator('./api/files/') as $apifiles) {
             if ($apifiles->isDot() || $apifiles->isFile()) continue;
             echo '  <hr>
-                    <h2 class="subtitle">- '. substr($apifiles, 1) .'</h2>
+                    <h2 class="subtitle">- ' . substr($apifiles, 1) . '</h2>
                     <div class="row">';
             foreach (new DirectoryIterator('./api/files/' . $apifiles) as $fileInfo) {
                 if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
-                $directory = "api/files/". $apifiles ."/". $fileInfo;
+                $directory = "api/files/" . $apifiles . "/" . $fileInfo;
                 $name = file_get_contents($directory . "/name.txt");
                 $time = file_get_contents($directory . "/time.txt");
 
@@ -153,12 +154,43 @@ function getImage($directory)
             }
             echo '</div>';
         }
-            ?>
+        ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+
+        <!-- Tests -->
+        <script>
+            $(function get_post() {
+
+                // optional: don't cache ajax to force the content to be fresh
+                $.ajaxSetup({
+                    cache: false
+                });
+
+                // specify loading spinner
+                var spinner = "<img src='http://i.imgur.com/pKopwXp.gif' alt='loading...' />";
+
+                // specify the server/url you want to load data from
+                var url = "http://127.0.0.1/Project-TI/dashboard.php";
+
+                // on click, load the data dynamically into the #result div
+                //$("#loadbasic").click(function() {
+                //    $("#result").html(spinner).load(url);
+                //});
+
+            });
+        </script>
+
+        <script>
+            setInterval(function() {
+                get_post()
+            }, 5000);
+        </script>
 
 </body>
 
