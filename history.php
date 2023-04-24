@@ -6,13 +6,13 @@ if (!$_SESSION['logged']) {
     die("Acesso restrito.");
 }
 
-function getImage($directory,$value)
+function getImage($directory, $value)
 {
     if (strcmp($value, 'On') == 0 || strcmp($value, 'Open') == 0 || strcmp($value, 'Yes') == 0)
         return $directory . '/images/2';
 
     if (strcmp($value, 'Off') == 0 || strcmp($value, 'Closed') == 0 || strcmp($value, 'No') == 0)
-        return $directory . '/images/1';        
+        return $directory . '/images/1';
 
 
     $range = file($directory . '/range.txt', FILE_IGNORE_NEW_LINES);
@@ -28,6 +28,7 @@ function getImage($directory,$value)
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,8 +39,13 @@ function getImage($directory,$value)
     <link rel="icon" type="image/x-icon" href="src/favicon.svg">
     <title>Document</title>
 </head>
+
 <body>
-<div class="bg" alt="Blue and Purple Waves"></div>
+
+    <!-- Background Image -->
+    <div class="bg" alt="Blue and Purple Waves"></div>
+
+    <!-- Desktop Navbar -->
     <div class="desktopnav d-xl-flex">
         <div>
             <a href="dashboard.php">
@@ -73,10 +79,13 @@ function getImage($directory,$value)
         </div>
     </div>
 
+    
+    <!-- Mobile Navbar -->
+
     <div class="mobile-top-margin d-xl-none"></div>
 
     <div class="mobilenav d-xl-none">
-        <div  class="pagesdiv">
+        <div class="pagesdiv">
             <a href="dashboard.php">
                 <img class="navlogo" src="src/favicon.svg" alt="Company Logo">
                 <h1 class="d-md-flex">Warehouse</h1>
@@ -107,24 +116,23 @@ function getImage($directory,$value)
             </div>
         </div>
     </div>
-    <div class="container">
-    <h1 class="title">History</h1>
 
     
+    <!-- Main content -->
+    <div class="container">
+        <h1 class="title">History</h1>
 
-    <?php
-
-
-        if(isset($_GET['name']) && isset($_GET['type']))
-        {
+        <?php
+        //Code to generate tables to each sensors/actuators
+        //If a get requeste are made, will only generate a table to this specific sensor/actuators
+        if (isset($_GET['name']) && isset($_GET['type'])) {
 
             foreach (new DirectoryIterator('./api/files/') as $apifiles) {
                 if ($apifiles->isDot() || $apifiles->isFile()) continue;
-                if(strcmp(substr($apifiles, 1),strtolower($_GET['type']))==0){
+                if (strcmp(substr($apifiles, 1), strtolower($_GET['type'])) == 0) {
                     $_GET['type'] = $apifiles;
                     break;
                 }
-
             }
 
             echo '  <div class="separator"></div>
@@ -143,34 +151,30 @@ function getImage($directory,$value)
                                     <th scope="col">Value</th>
                                     <th scope="col">Update Date</th>
                                 </tr>';
-                                $directory ="api/files/" . $_GET['type'] . "/" . strtolower($_GET['name']);
-                                $log = file($directory . "/log.txt",FILE_IGNORE_NEW_LINES| FILE_SKIP_EMPTY_LINES);
-                                $_GET['name'] = ucfirst($_GET['name']);
-                                for($i=0;$i<count($log);$i++)
-                                {
-                                    $loginfo =  explode(";", $log[$i]);
-                                    echo '<tr>
-                                    <td scope="col"><img src="' . getImage($directory,trim($loginfo[1])) . '.svg" class="image"></td>
-                                    <td scope="col">'.$_GET['name'].'</td>
-                                    <td scope="col">'.$loginfo[1].$measurement.'</td>
-                                    <td scope="col">'.$loginfo[0].'</td>
+            $directory = "api/files/" . $_GET['type'] . "/" . strtolower($_GET['name']);
+            $log = file($directory . "/log.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $_GET['name'] = ucfirst($_GET['name']);
+            for ($i = 0; $i < count($log); $i++) {
+                $loginfo =  explode(";", $log[$i]);
+                echo '<tr>
+                                    <td scope="col"><img src="' . getImage($directory, trim($loginfo[1])) . '.svg" class="image"></td>
+                                    <td scope="col">' . $_GET['name'] . '</td>
+                                    <td scope="col">' . $loginfo[1] . $measurement . '</td>
+                                    <td scope="col">' . $loginfo[0] . '</td>
                                     </tr>';
-                                }         
+            }
 
             echo '          </thead>
                         </table>
                         </div>
                         </div>
                     </div>';
-        }
-        
-        else
-        {
+        } else {
 
-        foreach (new DirectoryIterator('./api/files/') as $apifiles) {
-            if ($apifiles->isDot() || $apifiles->isFile()) continue;
-            
-            echo '  <div class="separator"></div>
+            foreach (new DirectoryIterator('./api/files/') as $apifiles) {
+                if ($apifiles->isDot() || $apifiles->isFile()) continue;
+
+                echo '  <div class="separator"></div>
                     <hr>
                     <h2 class="subtitle">- ' . substr($apifiles, 1) . '</h2>
                     <div class="container">
@@ -184,39 +188,40 @@ function getImage($directory,$value)
                                             <th scope="col">Value</th>
                                             <th scope="col">Update Date</th>
                                         </tr>';
-            foreach (new DirectoryIterator('./api/files/' . $apifiles) as $fileInfo) {
+                foreach (new DirectoryIterator('./api/files/' . $apifiles) as $fileInfo) {
 
-                if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
-                $directory = "api/files/" . $apifiles . "/" . $fileInfo;
-                $name = file_get_contents($directory . "/name.txt");
-                $time = file_get_contents($directory . "/time.txt");
-                $measurement = file_get_contents($directory . "/measurement.txt");
-                $log = file($directory . "/log.txt",FILE_IGNORE_NEW_LINES| FILE_SKIP_EMPTY_LINES);
+                    if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
+                    $directory = "api/files/" . $apifiles . "/" . $fileInfo;
+                    $name = file_get_contents($directory . "/name.txt");
+                    $time = file_get_contents($directory . "/time.txt");
+                    $measurement = file_get_contents($directory . "/measurement.txt");
+                    $log = file($directory . "/log.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-                    for($i=0;$i<count($log);$i++)
-                    {
+                    for ($i = 0; $i < count($log); $i++) {
                         $loginfo =  explode(";", $log[$i]);
                         echo '<tr>
-                                <td scope="col"><img src="' . getImage($directory,$loginfo[1]) . '.svg" class="image"></td>
-                                <td scope="col">'.$name.'</td>
-                                <td scope="col">'.$loginfo[1].$measurement.'</td>
-                            <td scope="col">'.$loginfo[0].'</td>
+                                <td scope="col"><img src="' . getImage($directory, $loginfo[1]) . '.svg" class="image"></td>
+                                <td scope="col">' . $name . '</td>
+                                <td scope="col">' . $loginfo[1] . $measurement . '</td>
+                            <td scope="col">' . $loginfo[0] . '</td>
                         </tr>';
-                    }                                          
-            }
-            echo '  </thead>
+                    }
+                }
+                echo '  </thead>
                     </table>
                     </div>
                     </div>
                     </div>';
+            }
         }
-    }
         ?>
-        </div>
+    </div>
     
+    <!-- Scripts Import -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>

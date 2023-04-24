@@ -187,6 +187,8 @@ body{
 
 }
 
+/* Hover actions */
+
 .mobilenav a:hover .pagename{
     background-color: var(--secondary-color);
     
@@ -212,7 +214,7 @@ body{
 }
 
 
-
+/* Logout button in user dropdown*/
 
 .logoutbtn {
     color: rgb(250, 26, 26);

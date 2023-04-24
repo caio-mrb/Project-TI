@@ -1,6 +1,6 @@
 <?php
-
 session_start();
+
 $users = file('src/users.txt',FILE_IGNORE_NEW_LINES);
 
 /*
@@ -70,6 +70,8 @@ if ($request_method === 'POST') {
 
         <!-- Login Validation-->
         <?php
+            //Code to verify if any combination of user and password are in users.txt file
+
             for($i=0;$i<count($users);$i+=2)
             {
                 if(strcmp($_SESSION['username'],$users[$i]) == 0 &&  password_verify($_SESSION['password'],$users[$i+1]))

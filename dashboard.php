@@ -20,7 +20,7 @@ function getImage($directory)
 
     if (strcmp($value, 'On') == 0 || strcmp($value, 'Open') == 0 || strcmp($value, 'Yes') == 0)
         return $directory . '/images/2';
-        
+
     if (strcmp($value, 'Off') == 0 || strcmp($value, 'Closed') == 0 || strcmp($value, 'No') == 0)
         return $directory . '/images/1';
 
@@ -40,7 +40,7 @@ function getImage($directory)
 <html lang="en-US">
 
 <head>
-    <!--<meta http-equiv="refresh" content="5">-->
+    <meta http-equiv="refresh" content="5">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,7 +53,11 @@ function getImage($directory)
 </head>
 
 <body>
+    <!-- Background Image -->
     <div class="bg" alt="Blue and Purple Waves"></div>
+
+    
+    <!-- Desktop Navbar -->
     <div class="desktopnav d-xl-flex">
         <div>
             <a href="dashboard.php">
@@ -86,6 +90,9 @@ function getImage($directory)
             </div>
         </div>
     </div>
+
+    
+    <!-- Mobile Navbar -->
 
     <div class="mobile-top-margin d-xl-none"></div>
 
@@ -122,10 +129,14 @@ function getImage($directory)
         </div>
     </div>
 
+    
+    <!-- Main content -->
     <div class="container">
         <h1 class="title">Dynamic Dashboard</h1>
 
         <?php
+        //Code to iterate all directories and generate respective card for each sensor/actuator
+
         foreach (new DirectoryIterator('./api/files/') as $apifiles) {
             if ($apifiles->isDot() || $apifiles->isFile()) continue;
             echo '  <hr>
@@ -156,42 +167,11 @@ function getImage($directory)
         }
         ?>
 
-
+        <!-- Scrip Imports -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-
-        <!-- Tests -->
-        <script>
-            $(function get_post() {
-
-                // optional: don't cache ajax to force the content to be fresh
-                $.ajaxSetup({
-                    cache: false
-                });
-
-                // specify loading spinner
-                var spinner = "<img src='http://i.imgur.com/pKopwXp.gif' alt='loading...' />";
-
-                // specify the server/url you want to load data from
-                var url = "http://127.0.0.1/Project-TI/dashboard.php";
-
-                // on click, load the data dynamically into the #result div
-                //$("#loadbasic").click(function() {
-                //    $("#result").html(spinner).load(url);
-                //});
-
-            });
-        </script>
-
-        <script>
-            setInterval(function() {
-                get_post()
-            }, 5000);
-        </script>
-
 </body>
 
 </html>

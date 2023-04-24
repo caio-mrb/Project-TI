@@ -3,14 +3,13 @@
     text-transform: capitalize;
 }
 
-
-.separator{
-    height: 30px;
-}
-
 .title {
     font-size: 4em;
     margin-top: 30px;
+}
+
+.separator{
+    height: 30px;
 }
 
 .image {
