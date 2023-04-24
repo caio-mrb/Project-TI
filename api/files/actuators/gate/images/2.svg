@@ -1,0 +1,21 @@
+<svg width="247" height="275" viewBox="0 0 247 275" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M123 123H161.817L243.62 272H4.34115L84.1974 123H123Z" fill="#212121" stroke="black" stroke-width="4"/>
+<path d="M14.1867 273.001L92.5 124" stroke="#E2E2E2" stroke-width="4" stroke-linecap="round"/>
+<path d="M230 270.5L152.5 122.5" stroke="#E2E2E2" stroke-width="4" stroke-linecap="round"/>
+<path d="M123 123H161.817L243.62 272H4.34115L84.1974 123H123Z" stroke="black" stroke-width="4"/>
+<path d="M222 151V194H192V151C192 142.716 198.716 136 207 136C215.284 136 222 142.716 222 151Z" fill="#565656" stroke="black" stroke-width="4"/>
+<rect x="137.028" y="2.6783" width="173" height="16" rx="8" transform="rotate(63.7514 137.028 2.6783)" fill="#D9D9D9" stroke="black" stroke-width="4"/>
+<mask id="mask0_21_605" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="123" y="3" width="90" height="162">
+<rect x="137.028" y="2.6783" width="173" height="16" rx="8" transform="rotate(63.7514 137.028 2.6783)" fill="#D9D9D9" stroke="black" stroke-width="4"/>
+</mask>
+<g mask="url(#mask0_21_605)">
+<line y1="-5" x2="37.7936" y2="-5" transform="matrix(-0.482684 0.875795 -0.733197 -0.680016 140.591 5.38132)" stroke="#B82727" stroke-width="10"/>
+<line y1="-5" x2="37.7936" y2="-5" transform="matrix(-0.482684 0.875795 -0.733197 -0.680016 151.479 27.4611)" stroke="#B82727" stroke-width="10"/>
+<line y1="-5" x2="37.7936" y2="-5" transform="matrix(-0.482684 0.875795 -0.733197 -0.680016 162.367 49.5409)" stroke="#B82727" stroke-width="10"/>
+<line y1="-5" x2="37.7936" y2="-5" transform="matrix(-0.482684 0.875795 -0.733197 -0.680016 173.255 71.6207)" stroke="#B82727" stroke-width="10"/>
+<line y1="-5" x2="37.7936" y2="-5" transform="matrix(-0.482684 0.875795 -0.733197 -0.680016 184.143 93.7005)" stroke="#B82727" stroke-width="10"/>
+<line y1="-5" x2="37.7936" y2="-5" transform="matrix(-0.482684 0.875795 -0.733197 -0.680016 195.031 115.78)" stroke="#B82727" stroke-width="10"/>
+<line y1="-5" x2="37.7936" y2="-5" transform="matrix(-0.482684 0.875795 -0.733197 -0.680016 205.918 137.86)" stroke="#B82727" stroke-width="10"/>
+</g>
+<rect x="137.028" y="2.6783" width="173" height="16" rx="8" transform="rotate(63.7514 137.028 2.6783)" stroke="black" stroke-width="4"/>
+</svg>

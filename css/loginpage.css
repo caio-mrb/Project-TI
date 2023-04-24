@@ -26,7 +26,10 @@ body{
 {
     position: fixed;
     width: 100vw;
-    bottom: 0;
+    height: 220px;
+    bottom: 0px;
+    background-image: url('../src/layered-waves-haikei.svg');
+    background-position: bottom;
     z-index: -1;
 }
 

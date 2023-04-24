@@ -39,7 +39,7 @@ if ($request_method === 'POST') {
 
 <body>
     <!-- Background Image -->
-    <img class ="bg-img" src="src/layered-waves-haikei.svg" alt="Blue and Purple Waves">
+    <div class="bg-img" alt="Blue and Purple Waves"></div>
 
     <!-- Logo Image -->
     <div class="container">
