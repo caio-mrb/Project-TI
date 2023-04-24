@@ -215,5 +215,9 @@ body{
 
 
 .logoutbtn {
-    color: red;
+    color: rgb(250, 26, 26);
+}
+
+.logoutbtn:hover {
+    color: rgb(255, 59, 59);
 }

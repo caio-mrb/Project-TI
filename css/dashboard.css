@@ -30,6 +30,7 @@
 
 .title, .subtitle {
     color: var(--menu-text-color);
+    text-transform: capitalize;
 }
 
 .title {

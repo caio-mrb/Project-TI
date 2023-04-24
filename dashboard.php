@@ -6,6 +6,35 @@ if (!$_SESSION['logged']) {
     die("Acesso restrito.");
 }
 
+function getValue($directory)
+{
+    $value = file_get_contents($directory . '/value.txt');
+    $measurement = file_get_contents($directory . '/measurement.txt');
+
+    return $value . $measurement;
+}
+
+function getImage($directory)
+{
+    $value = file_get_contents($directory . '/value.txt', FILE_IGNORE_NEW_LINES);
+
+    if (strcmp($value, 'On') == 0 || strcmp($value, 'Open') == 0 || strcmp($value, 'Yes') == 0)
+
+        return $directory . '/images/2';
+    if (strcmp($value, 'Off') == 0 || strcmp($value, 'Closed') == 0 || strcmp($value, 'No') == 0)
+        return $directory . '/images/1';
+
+
+    $range = file($directory . '/range.txt', FILE_IGNORE_NEW_LINES);
+    $images = new FilesystemIterator($directory . '/images', FilesystemIterator::SKIP_DOTS);
+    $imgs_num = iterator_count($images);
+
+    for ($i = 1; $i <= $imgs_num; $i++) {
+        if ((($range[1] - $range[0]) / $imgs_num) * $i + $range[0] >= $value)
+            return $directory . '/images/' . $i;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,141 +123,37 @@ if (!$_SESSION['logged']) {
 
     <div class="container">
         <h1 class="title">Dynamic Dashboard</h1>
-
-        <hr>
-        <h2 class="subtitle">- Sensors</h2>
-        <div class="row">
+        
             <?php
-
-            function sensorImage($directory)
-            {
-                $range = file($directory . '/range.txt', FILE_IGNORE_NEW_LINES);
-                $value = file_get_contents($directory . '/value.txt');
-
-                if ($range[1] - $range[0] == 1) {
-                    return $directory . '/images/' . $value + 1;
-                }
-
-
-                $images = new FilesystemIterator($directory . '/images', FilesystemIterator::SKIP_DOTS);
-                $imgs_num = iterator_count($images);
-
-                for ($i = 1; $i <= $imgs_num; $i++) {
-                    if ((($range[1] - $range[0]) / $imgs_num) * $i + $range[0] >= $value)
-                        return $directory . '/images/' . $i;
-                }
-            }
-
-            function getValue($directory)
-            {
-                $range = file($directory . '/range.txt', FILE_IGNORE_NEW_LINES);
-                $value = file_get_contents($directory . '/value.txt');
-                $measurement = file_get_contents($directory . '/measurement.txt');
-                
-                return $value . $measurement;
-            }
-
-            foreach (new DirectoryIterator('./api/files/sensors') as $fileInfo) {
+            foreach (new DirectoryIterator('./api/files/') as $apifiles) {
+            if ($apifiles->isDot() || $apifiles->isFile()) continue;
+            echo '  <hr>
+                    <h2 class="subtitle">- '. substr($apifiles, 1) .'</h2>
+                    <div class="row">';
+            foreach (new DirectoryIterator('./api/files/' . $apifiles) as $fileInfo) {
                 if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
-                $directory = "api/files/sensors/" . $fileInfo->getBasename();
+                $directory = "api/files/". $apifiles ."/". $fileInfo;
                 $name = file_get_contents($directory . "/name.txt");
                 $time = file_get_contents($directory . "/time.txt");
+
                 echo '<div class="col-lg-4">
-                <div class="card text-white bg-secondary m-3">
-            <div class="card-header text-center">
-                ' . $name . ': ' . getValue($directory) . '
-            </div>
-            <div class="card-body">
-            <img src="' . getImage($directory) . '.svg" class="image">
-            </div>
-            <div class="card-footer text-center">
-                ' . $time . '
-                <a href="history.php">History</a>
-            </div>
-        </div>
-    </div>';
+                        <div class="card text-white bg-secondary m-3">
+                            <div class="card-header text-center">
+                                ' . $name . ': ' . getValue($directory) . '
+                            </div>
+                            <div class="card-body">
+                                <img src="' . getImage($directory) . '.svg" class="image">
+                            </div>
+                            <div class="card-footer text-center">
+                                ' . $time . '
+                            <a href="history.php">History</a>
+                            </div>
+                        </div>
+                    </div>';
             }
+            echo '</div>';
+        }
             ?>
-        </div>
-        <hr>
-        <h2 class="subtitle">- Actuators</h2>
-        <div class="row">
-            <?php
-
-            function getImage($directory)
-            {
-                $value = file_get_contents($directory . '/value.txt', FILE_IGNORE_NEW_LINES);
-                
-                if(strcmp($value,'On') == 0 || strcmp($value,'Open') == 0 || strcmp($value,'Yes') == 0)
-                
-                 return $directory . '/images/2';
-                 if(strcmp($value,'Off') == 0 || strcmp($value,'Close') == 0 || strcmp($value,'No') == 0)
-                return $directory . '/images/1';
-
-                
-                $range = file($directory . '/range.txt', FILE_IGNORE_NEW_LINES);
-                $images = new FilesystemIterator($directory . '/images', FilesystemIterator::SKIP_DOTS);
-                $imgs_num = iterator_count($images);
-
-                for ($i = 1; $i <= $imgs_num; $i++) {
-                    if ((($range[1] - $range[0]) / $imgs_num) * $i + $range[0] >= $value)
-                        return $directory . '/images/' . $i;
-                }
-
-            }
-
-            foreach (new DirectoryIterator('./api/files/actuators') as $fileInfo) {
-                if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
-                $directory = "api/files/actuators/" . $fileInfo->getBasename();
-                $name = file_get_contents($directory . "/name.txt");
-                $time = file_get_contents($directory . "/time.txt");
-                echo '<div class="col-lg-4">
-    <div class="card text-white bg-secondary m-3">
-<div class="card-header text-center">
-    ' . $name . ': ' . getValue($directory) . '
-</div>
-<div class="card-body">
-<img src="' . getImage($directory) . '.svg" class="image">
-</div>
-<div class="card-footer text-center">
-    ' . $time . '
-    <a href="history.php">History</a>
-</div>
-</div>
-</div>';
-            }
-            ?>
-        </div>
-        <hr>
-        <h2 class="subtitle">- Security</h2>
-        <div class="row">
-            <?php
-
-            foreach (new DirectoryIterator('./api/files/security') as $fileInfo) {
-                if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
-                $directory = "api/files/security/" . $fileInfo->getBasename();
-                $name = file_get_contents($directory . "/name.txt");
-                $time = file_get_contents($directory . "/time.txt");
-                echo '<div class="col-lg-4">
-    <div class="card text-white bg-secondary m-3">
-<div class="card-header text-center">
-    ' . $name . ': ' . getValue($directory) . '
-</div>
-<div class="card-body">
-<img src="' . getImage($directory) . '.svg" class="image">
-</div>
-<div class="card-footer text-center">
-    ' . $time . '
-    <a href="history.php">History</a>
-</div>
-</div>
-</div>';
-            }
-            ?>
-        </div>
-        <hr>
-    </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
