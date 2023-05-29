@@ -1,11 +1,30 @@
 <?php
 
-header('Content-Type: text/html; charset=utf-8');
+
+
+function getJSON(){
+
+$request_body = file_get_contents('php://input');
+
+$data = json_decode($request_body, true);
+
+if (json_last_error() != JSON_ERROR_NONE) {
+
+    http_response_code(400);
+    die("Invalid JSON");
+}
+
+return $data;
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
+    header('Content-Type: application/json');
+
+    $data_post_post = getJSON();
+
     //Verify if all parameters are set
-    if (!isset($_POST['type']) || !isset($_POST['name']) || !isset($_POST['value']) || !isset($_POST['time'])){
+    if (!isset($data_post['type']) || !isset($data_post['name']) || !isset($data_post['value']) || !isset($data_post['time'])){
         
         http_response_code(400);
         die("Missing parameters");
@@ -14,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //Divide time into array to check validity of input
 
-    $timearray = str_split($_POST['time']);
+    $timearray = str_split($data_post['time']);
 
     if($timearray[4] != "/" || $timearray[7] != "/" || $timearray[10] != " " || $timearray[11] != "-" || $timearray[12] != " " || $timearray[15] != ":" || $timearray[18] != ":")
     {
@@ -46,13 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //Srt to low to parameters be compared
 
-    $_POST['name'] = strtolower($_POST['name']);
-    $_POST['type'] = strtolower($_POST['type']);
+    $data_post['name'] = strtolower($data_post['name']);
+    $data_post['type'] = strtolower($data_post['type']);
 
     //Search for a directory equal type input
 
     foreach (new DirectoryIterator('./files/') as $apifiles) {
-        if(strcmp(substr($apifiles, 1),$_POST['type']) == 0)
+        if(strcmp(substr($apifiles, 1),$data_post['type']) == 0)
         {
             $typedirectory = $apifiles->getBasename();
             break;
@@ -61,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //If not found a directory with same name, return a 'Not Found' error
 
-    if(!isset($typedirectory) || (!file_exists("files/". $typedirectory . "/" . $_POST['name']) && !is_dir("files/". $typedirectory . "/" . $_POST['name'])))
+    if(!isset($typedirectory) || (!file_exists("files/". $typedirectory . "/" . $data_post['name']) && !is_dir("files/". $typedirectory . "/" . $data_post['name'])))
     {
         http_response_code(404);
         die("<h1> Not Found </h1><p>The requested URL was not found on this server.</p>"); 
@@ -70,12 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //Set value
 
-    $value = file_get_contents("files/". $typedirectory . "/" . $_POST['name'] . "/value.txt");
+    $value = file_get_contents("files/". $typedirectory . "/" . $data_post['name'] . "/value.txt");
 
 
     //Compare if the value in file are the same type (int or str), if not, return 'Unsuported value'
     //Validation made with xor because only when two values have the same type needs return an error
-    if(is_numeric($value) xor is_numeric($_POST['value']))
+    if(is_numeric($value) xor is_numeric($data_post['value']))
     {
         http_response_code(422);
         die("Unsupported value");
@@ -83,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //If its a binary type, dont need to update if have the same value as the previous one
 
-    if(!is_numeric($_POST['value']) && strcmp($_POST['value'],$value) == 0)
+    if(!is_numeric($data_post['value']) && strcmp($data_post['value'],$value) == 0)
     {
         http_response_code(208);
         die("Already set");
@@ -91,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //If its a numeric type, when have same value and same date, the input is considered equal    
 
-    if(is_numeric($_POST['value']) && $_POST['value'] == $value && strcmp(file_get_contents("files/". $typedirectory . "/" . $_POST['name'] . "/time.txt"),$_POST['time']) == 0)
+    if(is_numeric($data_post['value']) && $data_post['value'] == $value && strcmp(file_get_contents("files/". $typedirectory . "/" . $data_post['name'] . "/time.txt"),$data_post['time']) == 0)
     {
         http_response_code(208);
         die( "Already set");
@@ -99,11 +118,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
     //Set range
 
-    $range = file("files/". $typedirectory . "/" . $_POST['name'] . "/range.txt", FILE_IGNORE_NEW_LINES);
+    $range = file("files/". $typedirectory . "/" . $data_post['name'] . "/range.txt", FILE_IGNORE_NEW_LINES);
 
     //Verify if value exceeds the range
 
-    if(is_numeric($_POST['value']) && ($_POST['value'] < $range[0] || $_POST['value'] > $range[1]))
+    if(is_numeric($data_post['value']) && ($data_post['value'] < $range[0] || $data_post['value'] > $range[1]))
     {
         http_response_code(416);
         die( "Value exceeds the range");
@@ -112,11 +131,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     //If its a binary type, verify if input are valid for each sensor, because a sensor that receive On or Off,
     //cant receive Open or Closed for example
 
-    if (!is_numeric($_POST['value']))
+    if (!is_numeric($data_post['value']))
     {
-    $_POST['value'] = ucfirst(strtolower($_POST['value']));
+    $data_post['value'] = ucfirst(strtolower($data_post['value']));
 
-    switch($_POST['value']){
+    switch($data_post['value']){
         case 'On':
         case 'Off':
             if(strcmp($value,"On")!=0 && strcmp($value,"Off")!=0)
@@ -145,11 +164,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //If pass all conditions, update values and write into log file
 
-    file_put_contents("files/" . $typedirectory . "/" . $_POST['name'] . "/value.txt", $_POST['value']);
-    file_put_contents("files/" . $typedirectory . "/" . $_POST['name'] . "/time.txt", $_POST['time']);
-    file_put_contents("files/" . $typedirectory . "/" . $_POST['name'] . "/log.txt", $_POST['time'] . "; " . $_POST['value'] . PHP_EOL, FILE_APPEND);
+    file_put_contents("files/" . $typedirectory . "/" . $data_post['name'] . "/value.txt", $data_post['value']);
+    file_put_contents("files/" . $typedirectory . "/" . $data_post['name'] . "/time.txt", $data_post['time']);
+    file_put_contents("files/" . $typedirectory . "/" . $data_post['name'] . "/log.txt", $data_post['time'] . "; " . $data_post['value'] . PHP_EOL, FILE_APPEND);
     
 } elseif ($_SERVER['REQUEST_METHOD'] == "GET") {
+
+    header('Content-Type: text/plain');
 
     //Verify if all parameters are set
 
@@ -185,17 +206,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $value = file_get_contents("files/". $typedirectory . "/" . $_GET['name'] . "/value.txt");
 
     //Print value
-    echo "Value: " . $value ."<br>";
+    $data["value"] = $value;
 
     //If is numeric, beyond value, also prints unit of measurement and min and max possible values
     if (is_numeric($value))
     {
         $range = file("files/". $typedirectory . "/" . $_GET['name'] . "/range.txt", FILE_IGNORE_NEW_LINES);
         $measurement = file_get_contents("files/". $typedirectory . "/" . $_GET['name'] . "/measurement.txt", FILE_IGNORE_NEW_LINES);
-        echo "Measurement: " . $measurement ."<br>";
-        echo "Min-value: " . $range[0] ."<br>";
-        echo "Max-value: " . $range[1] ."<br>";
+        $data["measurement"] = $measurement;
+        $main_range = array(
+            "min-value" => $range[0],
+            "max-value" => $range[1]);
+
+        $data["range"] = $main_range;
     }
+
+    $json = json_encode($data);
+
+    echo $json;
    
 } else
 {
