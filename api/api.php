@@ -1,5 +1,32 @@
 <?php
+function getValue($directory)
+{
+    $value = file_get_contents($directory . '/value.txt');
+    $measurement = file_get_contents($directory . '/measurement.txt');
 
+    return $value . $measurement;
+}
+
+function getImage($directory)
+{
+    $value = file_get_contents($directory . '/value.txt', FILE_IGNORE_NEW_LINES);
+
+    if (strcmp($value, 'On') == 0 || strcmp($value, 'Open') == 0 || strcmp($value, 'Yes') == 0)
+        return $directory . '/images/2';
+
+    if (strcmp($value, 'Off') == 0 || strcmp($value, 'Closed') == 0 || strcmp($value, 'No') == 0)
+        return $directory . '/images/1';
+
+
+    $range = file($directory . '/range.txt', FILE_IGNORE_NEW_LINES);
+    $images = new FilesystemIterator($directory . '/images', FilesystemIterator::SKIP_DOTS);
+    $imgs_num = iterator_count($images);
+
+    for ($i = 1; $i <= $imgs_num; $i++) {
+        if ((($range[1] - $range[0]) / $imgs_num) * $i + $range[0] >= $value)
+            return $directory . '/images/' . $i;
+    }
+}
 
 
 function getJSON(){
@@ -21,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     header('Content-Type: application/json');
 
-    $data_post_post = getJSON();
+    $data_post = getJSON();
 
     //Verify if all parameters are set
     if (!isset($data_post['type']) || !isset($data_post['name']) || !isset($data_post['value']) || !isset($data_post['time'])){
@@ -170,14 +197,28 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
 } elseif ($_SERVER['REQUEST_METHOD'] == "GET") {
 
-    header('Content-Type: text/plain');
+    header('Content-Type: application/json');
 
     //Verify if all parameters are set
 
-    if (!isset($_GET['type']) || !isset($_GET['name'])){
+    if(!isset($_GET["name"]) || !isset($_GET["type"])) {
         
-        http_response_code(400);
-        die("Missing parameters");
+        
+    foreach (new DirectoryIterator('./files/') as $apifiles) {
+        if ($apifiles->isDot() || $apifiles->isFile()) continue;
+        foreach (new DirectoryIterator('./files/' . $apifiles) as $fileInfo) {
+            if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
+            $directory = "files/" . $apifiles . "/" . $fileInfo;
+            $data[] = array (
+                "id" => substr($apifiles, 1) . '-'. file_get_contents($directory . "/name.txt"),
+                "name" => file_get_contents($directory . "/name.txt"),
+                "time" => file_get_contents($directory . "/time.txt"),
+                "value" => getValue($directory),
+                "image" => "api/".getImage($directory).".svg"
+            );
+        }
+    }
+
     }
 
     //Str to low to be compared
@@ -201,6 +242,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         http_response_code(404);
         die("<h1> Not Found </h1><p>The requested URL was not found on this server.</p>"); 
     }
+
+
+    //Set value
+    $time = file_get_contents("files/". $typedirectory . "/" . $_GET['name'] . "/time.txt");
+
+    $data["time"] = $time;
 
     //Set value
     $value = file_get_contents("files/". $typedirectory . "/" . $_GET['name'] . "/value.txt");

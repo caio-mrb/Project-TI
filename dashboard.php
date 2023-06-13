@@ -40,7 +40,6 @@ function getImage($directory)
 <html lang="en-US">
 
 <head>
-    <meta http-equiv="refresh" content="5">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +55,7 @@ function getImage($directory)
     <!-- Background Image -->
     <div class="bg" alt="Blue and Purple Waves"></div>
 
-    
+
     <!-- Desktop Navbar -->
     <div class="desktopnav d-xl-flex">
         <div>
@@ -85,13 +84,19 @@ function getImage($directory)
                     <?php echo $_SESSION['username'] ?>
                 </button>
                 <div class="dropdown-menu" data-bs-theme="dark">
+                    <?php
+                    if ($_SESSION['privilege'] == 0) {
+                        echo '<a class="dropdown-item" href="users.php">Users</a>';
+                        echo '<div class="dropdown-divider"></div>';    
+                    }
+                    ?>
                     <a class="dropdown-item logoutbtn" href="logout.php">Log Out</a>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
     <!-- Mobile Navbar -->
 
     <div class="mobile-top-margin d-xl-none"></div>
@@ -123,13 +128,19 @@ function getImage($directory)
                     <?php echo $_SESSION['username'] ?>
                 </button>
                 <div class="dropdown-menu" data-bs-theme="dark">
+                <?php
+                    if ($_SESSION['privilege'] == 0) {
+                        echo '<a class="dropdown-item" href="users.php">Users</a>';
+                        echo '<div class="dropdown-divider"></div>';    
+                    }
+                    ?>
                     <a class="dropdown-item logoutbtn" href="logout.php">Log Out</a>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
     <!-- Main content -->
     <div class="container">
         <h1 class="title">Dynamic Dashboard</h1>
@@ -139,26 +150,31 @@ function getImage($directory)
 
         foreach (new DirectoryIterator('./api/files/') as $apifiles) {
             if ($apifiles->isDot() || $apifiles->isFile()) continue;
+            $directory = "api/files/" . $apifiles;
+            $privilege = file_get_contents($directory . "/privilege.txt");
+            if ($_SESSION['privilege'] > $privilege) continue;
             echo '  <hr>
                     <h2 class="subtitle">- ' . substr($apifiles, 1) . '</h2>
                     <div class="row">';
             foreach (new DirectoryIterator('./api/files/' . $apifiles) as $fileInfo) {
                 if ($fileInfo->isDot() || $fileInfo->isFile()) continue;
                 $directory = "api/files/" . $apifiles . "/" . $fileInfo;
+                $privilege = file_get_contents($directory . "/privilege.txt");
+                if ($_SESSION["privilege"] > $privilege) continue;
                 $name = file_get_contents($directory . "/name.txt");
                 $time = file_get_contents($directory . "/time.txt");
-
+                
                 echo '<div class="col-lg-4">
-                        <div class="card text-white bg-secondary m-3">
+                        <div class="card text-white bg-secondary m-3" id="card-' . substr($apifiles, 1) . '-' . $name . '">
                             <div class="card-header text-center">
-                                ' . $name . ': ' . getValue($directory) . '
+                                ' . $name . ': <span class="value">' . getValue($directory) . '</span>
                             </div>
                             <div class="card-body">
                                 <img src="' . getImage($directory) . '.svg" class="image">
                             </div>
                             <div class="card-footer text-center">
-                                ' . $time . '
-                            <a href="history.php?type='.substr($apifiles, 1) .'&name='. $fileInfo . '">History</a>
+                                <span class="last-update">' . $time . '</span>
+                            <a href="history.php?type=' . substr($apifiles, 1) . '&name=' . $fileInfo . '">History</a>
                             </div>
                         </div>
                     </div>';
@@ -172,6 +188,47 @@ function getImage($directory)
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            // Função para atualizar os cards
+            function updateCards() {
+                $.ajax({
+                    url: 'api/api.php', // URL da sua API
+                    type: 'GET',
+                    dataType: 'json',
+
+
+                    success: function(response) {
+
+                        for (var key in response) {
+                            if (response.hasOwnProperty(key)) {
+                                var cardData = response[key];
+                                console.log(cardData); // Exibe o objeto cardData no console
+
+                                var card = $('#card-' + cardData.id);
+                                card.find(".card-footer span").text(cardData.time);
+                                card.find(".card-header span").text(cardData.value);
+                                card.find(".image").attr("src", cardData.image);
+                            }
+                        }
+                        // Atualiza cada card com os dados recebidos
+
+
+                    },
+                    error: function() {
+                        alert('Ocorreu um erro ao atualizar os cards.');
+                    }
+                });
+            }
+
+            // Chama a função de atualização em intervalos de tempo regulares (por exemplo, a cada 5 segundos)
+            $(document).ready(function() {
+                setInterval(function() {
+                    updateCards();
+                }, 5000); // Intervalo em milissegundos (5 segundos neste exemplo)
+            });
+        </script>
+
 </body>
 
 </html>

@@ -5,10 +5,10 @@ $users = file('src/users.txt',FILE_IGNORE_NEW_LINES);
 
 /*
 Users:
-1 - login: admin - password: 123
-2 - login: user1 - password: tecnologiasdeinternet
-3 - login: user2 - password: arduino
-4 - login: user3 - password: learningiot
+1 - login: admin - password: 123 - privilege: 0(admin)
+2 - login: security - password: tecnologiasdeinternet - privilege: 1(security)
+3 - login: user1 - password: arduinov - privilege:  2(employee)
+4 - login: employee - password: learningiot - privilege: 2(employee)
 
 */
 
@@ -72,12 +72,13 @@ if ($request_method === 'POST') {
         <?php
             //Code to verify if any combination of user and password are in users.txt file
 
-            for($i=0;$i<count($users);$i+=2)
+            for($i=0;$i<count($users);$i+=3)
             {
                 if(strcmp($_SESSION['username'],$users[$i]) == 0 &&  password_verify($_SESSION['password'],$users[$i+1]))
                 {
                     $_SESSION['logged'] = true;
                     $_SESSION['userindex'] = $i;
+                    $_SESSION['privilege'] = $users[$i+2];
                     header('location: dashboard.php'); 
                 }
             }
